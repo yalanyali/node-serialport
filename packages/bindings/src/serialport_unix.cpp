@@ -103,9 +103,10 @@ int setBaudRate(ConnectionOptions *data) {
   // get port options
   struct termios options;
   if (-1 == tcgetattr(fd, &options)) {
-    snprintf(data->errorString, sizeof(data->errorString),
-             "Error: %s setting custom baud rate of %d", strerror(errno), data->baudRate);
-    return -1;
+    // snprintf(data->errorString, sizeof(data->errorString),
+    //          "Error: %s setting custom baud rate of %d", strerror(errno), data->baudRate);
+    // return -1;
+    return 1;
   }
 
   // If there is a custom baud rate on linux you can do the following trick with B38400
@@ -116,11 +117,13 @@ int setBaudRate(ConnectionOptions *data) {
       if (err == -1) {
         snprintf(data->errorString, sizeof(data->errorString),
                  "Error: %s || while retrieving termios2 info", strerror(errno));
-        return -1;
+        // return -1;
+        return 1;
       } else if (err == -2) {
         snprintf(data->errorString, sizeof(data->errorString),
                  "Error: %s || while setting custom baud rate of %d", strerror(errno), data->baudRate);
-        return -1;
+        // return -1;
+        return 1;
       }
 
       return 1;
